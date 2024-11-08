@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RR_LineThickness</class>
+ <widget class="QWidget" name="RR_LineThickness">
+  <property name="geometry">
+   <rect>
+    <x>500</x>
+    <y>500</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>RR - Set Drawings Pivots</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+
+    <item>
+        <widget class="QGroupBox" name="navigationGroupBox">
+            <property name="title">
+                <string>Set Pivot to Point</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+                <!-- Previous Button -->
+                <item>
+                    <widget class="QPushButton" name="btnPrevious">
+                        <property name="text">
+                            <string>Previous Point</string>
+                        </property>
+                    </widget>
+                </item>
+                <!-- Next Button -->
+                <item>
+                    <widget class="QPushButton" name="btnNext">
+                        <property name="text">
+                            <string>Next Point</string>
+                        </property>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+    </item>
+
+
+
+
+   <item>
+    <widget class="QGroupBox" name="pivotSettingsGroupBox">
+     <property name="title">
+      <string>Set Pivot Direction</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <!-- Buttons for directions -->
+      <item row="0" column="1">
+       <widget class="QPushButton" name="btnNorth">
+        <property name="text">
+         <string>North</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="btnSouth">
+        <property name="text">
+         <string>South</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="btnEast">
+        <property name="text">
+         <string>East</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="btnWest">
+        <property name="text">
+         <string>West</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="btnNorthWest">
+        <property name="text">
+         <string>Northwest</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="btnNorthEast">
+        <property name="text">
+         <string>Northeast</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="btnSouthWest">
+        <property name="text">
+         <string>Southwest</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="btnSouthEast">
+        <property name="text">
+         <string>Southeast</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="btnCenter">
+        <property name="text">
+         <string>Center</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+
+   <!-- Checkbox group for substitution settings -->
+   <item>
+    <widget class="QGroupBox" name="substitutionGroupBox">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="substitutionLayout">
+
+      <item>
+       <widget class="QCheckBox" name="checkSubstitutionDrawings">
+        <property name="text">
+         <string>Apply Pivot to all Substitution Drawings</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+
+      <item>
+       <widget class="QCheckBox" name="checkShapes">
+        <property name="text">
+         <string>Use Shapes as Reference</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+
+      <item>
+       <widget class="QCheckBox" name="checkStrokes">
+        <property name="text">
+         <string>Use Strokes as Reference</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Checkboxes for art layers -->
+   <item>
+    <widget class="QGroupBox" name="artLayersGroupBox">
+     <property name="title">
+      <string>Source Art Layers</string>
+     </property>
+     <layout class="QVBoxLayout" name="artLayersLayout">
+      <item>
+       <widget class="QCheckBox" name="checkUnderlay">
+        <property name="text">
+         <string>Underlay</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkLineArt">
+        <property name="text">
+         <string>Line Art</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkColorArt">
+        <property name="text">
+         <string>Color Art</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkOverlay">
+        <property name="text">
+         <string>Overlay</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
