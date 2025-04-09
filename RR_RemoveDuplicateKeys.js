@@ -1,34 +1,58 @@
 var localPath = specialFolders.userScripts;
 include(localPath + '/OpenHarmony/openHarmony.js');
 
-function logAllKeyframes() {
+function removeDuplicateKeysframes() {
     var allColumns = $.scn.columns;
+    var selectedNodes = $.scn.selectedNodes; 
+    var columnsToProcess = [];
 
-    allColumns.forEach(function(column) {
+    scene.beginUndoRedoAccum("Remove Duplicate Keys");
+
+    // If Ctrl is pressed, all columns are processed. If not, only selected nodes' columns are processed.
+    var isCtrlPressed = KeyModifiers.IsControlPressed();
+
+    if (isCtrlPressed) {
+        columnsToProcess = allColumns;
+    } else {
+        selectedNodes.forEach(function(node) {
+            var nodeColumns = node.linkedColumns;
+            columnsToProcess = columnsToProcess.concat(nodeColumns);
+        });
+    }
+
+    columnsToProcess.forEach(function (column) {
+        if (column === undefined) {
+            return; // Skip undefined columns
+        }
+
         var keyFrames = column.getKeyframes();
-        var frameValues = {};
-        var repeatedFrames = [];
-
-        keyFrames.forEach(function(keyFrame) {
-            var frameNumber = keyFrame.frameNumber;
-            var frameValue = column.getValue(frameNumber);
-
-            if (frameValues[frameValue] === undefined) {
-                frameValues[frameValue] = frameNumber;
-            } else {
-                repeatedFrames.push(frameNumber);
-            }
+        var keyFrameValues = keyFrames.map(function (keyFrame) {
+            return {
+                frameNumber: keyFrame.frameNumber,
+                value: column.getValue(keyFrame.frameNumber),
+            };
         });
 
-        keyFrames.forEach(function(keyFrame) {
-            var frameNumber = keyFrame.frameNumber;
-            var frameValue = column.getValue(frameNumber);
+        keyFrameValues.forEach(function (keyFrame, index) {
+            var prevKeyFrame = keyFrameValues[index - 1];
+            var nextKeyFrame = keyFrameValues[index + 1];
 
-            if (repeatedFrames.indexOf(frameNumber) !== -1) {
-                keyFrame.isKeyframe = false;
+            if (
+                prevKeyFrame && nextKeyFrame &&
+                keyFrame.value === prevKeyFrame.value &&
+                keyFrame.value === nextKeyFrame.value
+            ) {
+                keyFrames[index].isKeyframe = false;
+            } else if (
+                !nextKeyFrame && prevKeyFrame &&
+                keyFrame.value === prevKeyFrame.value
+            ) {
+                keyFrames[index].isKeyframe = false;
+            } else {
+                keyFrames[index].isKeyframe = true;
             }
-
-            $.log("Frame " + frameNumber + ": " + frameValue + " - isKeyframe: " + keyFrame.isKeyframe);
         });
     });
+
+    scene.endUndoRedoAccum();
 }
