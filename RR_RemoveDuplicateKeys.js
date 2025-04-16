@@ -2,17 +2,15 @@ var localPath = specialFolders.userScripts;
 include(localPath + '/OpenHarmony/openHarmony.js');
 
 function removeDuplicateKeysframes() {
-    var allColumns = $.scn.columns;
-    var selectedNodes = $.scn.selectedNodes; 
+    var selectedNodes = $.scn.selectedNodes;
     var columnsToProcess = [];
 
     scene.beginUndoRedoAccum("Remove Duplicate Keys");
 
-    // If Ctrl is pressed, all columns are processed. If not, only selected nodes' columns are processed.
     var isCtrlPressed = KeyModifiers.IsControlPressed();
 
-    if (isCtrlPressed) {
-        columnsToProcess = allColumns;
+    if (isCtrlPressed || selectedNodes.length === 0) {
+        columnsToProcess = $.scn.columns;
     } else {
         selectedNodes.forEach(function(node) {
             var nodeColumns = node.linkedColumns;
@@ -20,16 +18,20 @@ function removeDuplicateKeysframes() {
         });
     }
 
+    function isClose(a, b, epsilon) {
+        return Math.abs(a - b) <= epsilon;
+    }
+
+    var epsilon = 0.0001;
+
     columnsToProcess.forEach(function (column) {
-        if (column === undefined) {
-            return; // Skip undefined columns
-        }
+        if (column === undefined) return;
 
         var keyFrames = column.getKeyframes();
         var keyFrameValues = keyFrames.map(function (keyFrame) {
             return {
                 frameNumber: keyFrame.frameNumber,
-                value: column.getValue(keyFrame.frameNumber),
+                value: column.getValue(keyFrame.frameNumber)
             };
         });
 
@@ -39,13 +41,13 @@ function removeDuplicateKeysframes() {
 
             if (
                 prevKeyFrame && nextKeyFrame &&
-                keyFrame.value === prevKeyFrame.value &&
-                keyFrame.value === nextKeyFrame.value
+                isClose(keyFrame.value, prevKeyFrame.value, epsilon) &&
+                isClose(keyFrame.value, nextKeyFrame.value, epsilon)
             ) {
                 keyFrames[index].isKeyframe = false;
             } else if (
                 !nextKeyFrame && prevKeyFrame &&
-                keyFrame.value === prevKeyFrame.value
+                isClose(keyFrame.value, prevKeyFrame.value, epsilon)
             ) {
                 keyFrames[index].isKeyframe = false;
             } else {
