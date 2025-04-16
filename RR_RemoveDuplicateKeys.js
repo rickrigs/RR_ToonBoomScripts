@@ -22,7 +22,7 @@ function removeDuplicateKeysframes() {
         return Math.abs(a - b) <= epsilon;
     }
 
-    var epsilon = 0.0001;
+    var epsilon = 0.000099;
 
     columnsToProcess.forEach(function (column) {
         if (column === undefined) return;
